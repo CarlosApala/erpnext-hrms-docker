@@ -15,7 +15,7 @@ USER frappe
 COPY --chown=frappe:0 apps.json /opt/frappe/apps.json
 
 # Apply group permissions after app installation and cleanup, before the runtime COPY.
-RUN --mount=type=secret,id=apps_json,target=/opt/frappe/apps.json,uid=1000,gid=0 \
+RUN \
   : "${CACHE_BUST}" && \
   export APP_INSTALL_ARGS="" && \
   if [ -f /opt/frappe/apps.json ] && [ -s /opt/frappe/apps.json ]; then \
