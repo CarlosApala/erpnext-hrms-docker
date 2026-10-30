@@ -14,6 +14,10 @@ USER frappe
 
 COPY --chown=frappe:0 apps.json /opt/frappe/apps.json
 
+# Frappe Drive installs its frontend with pnpm. Pin pnpm 10: Corepack in Node 24 would
+# otherwise fetch pnpm 12, which fails on ignored build scripts (ERR_PNPM_IGNORED_BUILDS).
+RUN npm install -g --force pnpm@10 && pnpm --version
+
 # Apply group permissions after app installation and cleanup, before the runtime COPY.
 RUN \
   : "${CACHE_BUST}" && \
